@@ -1,66 +1,83 @@
-# Automação em Selenium - Unieuro 
+# Automação em Selenium 
 
-Este é um script de automação desenvolvido em **Python** com a biblioteca **Selenium**. O objetivo principal é automatizar o processo de login na plataforma EAD do Unieuro, navegar até um curso específico e realizar o download de um arquivo PDF.
+Este é um script de automação desenvolvido em **Python** com a biblioteca **Selenium**. O objetivo principal é automatizar o processo de login na plataforma AVA (Ambiente Virtual de Aprendizagem) do Unieuro, navegar até a disciplina de "Projetos" e verificar a existência do arquivo `globo.pdf`.
 
-O script será configurado para rodar no **Google Chrome** no ambiente Windows.
+O script é configurado para rodar no **Google Chrome** e utiliza o `webdriver-manager` para gerenciar automaticamente o **ChromeDriver**, simplificando a configuração inicial.
 
 ## Funcionalidades
 
-* **Login automático:** Acessa a plataforma EAD com as credenciais fornecidas.
-* **Navegação:** Encontra e acessa um curso específico na página "Meus cursos".
-* **Download de Arquivo:** Localiza o link de um arquivo PDF (globo.pdf) dentro do curso, captura sua URL e o baixa para uma pasta local.
-* **Organização:** Salva o arquivo baixado em uma pasta `downloads` criada na raiz do projeto.
+* **Login automático:** Acessa a plataforma AVA com as credenciais fornecidas.
+* **Navegação:** Encontra e acessa a disciplina **"Projetos"** na página de cursos.
+* **Verificação de Arquivo:** Localiza o link do arquivo **`globo.pdf`** dentro da disciplina e reporta se ele foi encontrado, exibindo sua URL.
+* **Execução Simples:** Utiliza o `webdriver-manager` para instalar e gerenciar o driver do navegador, dispensando a configuração manual do caminho (`chromedriver.exe`).
 
 ## Pré-requisitos
 
+Para executar este projeto, você precisa ter apenas o **Python** instalado em seu sistema.
+
 * **Python 3.8+**
-* Navegador **Google Chrome** (Você precisará baixar o **ChromeDriver** correspondente à sua versão do Chrome).
+* Navegador **Google Chrome** (deve estar instalado, o driver é gerenciado automaticamente).
 
 ## Instalação e Configuração
 
-Siga os passos abaixo para preparar o ambiente e executar o script no **Windows**.
+Siga os passos abaixo para preparar o ambiente e executar o script.
 
 ### 1. Preparação Inicial
 
-* **Clone o repositório** (ou copie os arquivos)
-    ```bash
-    git clone <url-do-seu-repositorio>
-    cd <nome-do-repositorio>
-    ```
+Clone o repositório (ou copie os arquivos) para sua máquina:
 
-* **(Opcional, mas recomendado) Crie um ambiente virtual**
-    ```bash
-    python -m venv venv
-    ```
+```bash
+git clone <url-do-seu-repositorio>
+cd <nome-do-repositorio>
+````
 
-* **Ative o ambiente virtual (Comando para Windows)**
-    ```bash
-    .\venv\Scripts\activate
-    ```
+**(Opcional, mas Altamente Recomendado) Crie e ative um ambiente virtual:**
 
-### 2. Instale as Dependências
+```bash
+# Cria o ambiente virtual
+python -m venv venv
 
-Crie um arquivo `requirements.txt` com o conteúdo abaixo e instale-as:
+# Ativa o ambiente virtual (Windows)
+.\venv\Scripts\activate
+
+# Ativa o ambiente virtual (Linux/macOS)
+source venv/bin/activate
+```
+
+### 2\. Instale as Dependências
+
+Crie um arquivo `requirements.txt` com o conteúdo abaixo e instale as bibliotecas necessárias.
+
+**Conteúdo de `requirements.txt`:**
+
+```
 selenium
-python-dotenv
-requests
+webdriver-manager
+```
 
+**Instalação:**
 
 ```bash
 pip install -r requirements.txt
+```
 
-Configure o ChromeDriver
-Você precisará baixar o driver correto e configurar o caminho no seu código Python:
+### 3\. Configure as Variáveis de Acesso
 
-Baixe o chromedriver.exe na página oficial do ChromeDriver (escolha a versão que corresponde ao seu Google Chrome).
+Embora o script fornecido use variáveis internas, para aderir a uma boa prática (e a sua sugestão de `python-dotenv`), **recomenda-se** configurar suas credenciais em um arquivo `.env` para maior segurança.
 
-Coloque o arquivo chromedriver.exe em um local conhecido no seu computador.
+Crie um arquivo chamado **`.env`** na pasta raiz do projeto e adicione suas credenciais:
 
-Importante: No seu script Python (main.py), você precisará definir o caminho completo para este arquivo (ex: CAMINHO_DRIVER = r'C:\Caminho\Para\chromedriver.exe').
+```
+# .env file
+UNIEURO_USUARIO="sua_matricula"
+UNIEURO_SENHA="sua_senha_secreta"
+```
 
-Configure as Variáveis de Ambiente
-Crie um arquivo chamado .env na pasta do projeto e adicione suas credenciais de acesso:
+> **Atenção:** Você precisará adaptar o script Python (`teste_ava_unieuro.py`) para ler essas variáveis usando a biblioteca `python-dotenv` se desejar usar o `.env`.
 
-substitua nas linha onde está escrito:
-UNIEURO_USUARIO="esse vai ser usuario"
-UNIEURO_SENHA="aqui fica a senha"
+### 4\. Execução do Script
+
+Com as dependências instaladas e o script devidamente configurado com as suas credenciais e seletores (`By.ID`, `By.XPATH`, etc.) corretos para o AVA do Unieuro, execute o teste com o seguinte comando:
+
+```bash
+python teste_ava_unieuro.py
